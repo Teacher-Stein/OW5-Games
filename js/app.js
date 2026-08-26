@@ -20,7 +20,7 @@
       blurb: 'Four teams flee down a corridor. Right answers move you forward; the Thing ' +
              'moves one door closer every beat, and noise makes it faster.',
       href: 'games/corridor/',
-      ready: false
+      ready: true
     },
     {
       id: 'sabotage',
@@ -195,22 +195,18 @@
 
   var rolling = null;
 
+  function seatRange() { return teamsMod.seatRange(); }
+
   function renderDraw() {
-    var s = store.state;
-    var caption = $('#drawCaption');
-    if (!teamsMod.largestTeam()) {
-      caption.textContent = 'No teams yet — shuffle them first.';
-      $('#drawNum').textContent = '—';
-      clear($('#drawNames'));
-      return;
-    }
-    caption.textContent = 'Everybody writes. One is drawn. Seats 1–' + teamsMod.largestTeam() + '.';
+    $('#drawCaption').textContent =
+      'Everybody writes. One is drawn. Seats 1–' + seatRange() + '.';
+    var box = $('#seatCountBox');
+    if (box) box.value = seatRange();
   }
 
   function doDraw() {
     if (rolling) return;
-    var max = teamsMod.largestTeam();
-    if (!max) { ui.toast('Shuffle teams first.'); return; }
+    var max = seatRange();
 
     var numNode = $('#drawNum');
     var namesNode = $('#drawNames');
@@ -457,6 +453,15 @@
     });
 
     $('#btnDraw').addEventListener('click', doDraw);
+
+    $('#seatCountBox').addEventListener('change', function () {
+      var n = parseInt(this.value, 10);
+      if (isNaN(n) || n < 2) n = 2;
+      if (n > 20) n = 20;
+      store.state.seatCount = n;
+      store.save();
+      renderDraw();
+    });
 
     $('#logFilter').addEventListener('input', renderLog);
     $('#logSort').addEventListener('change', renderLog);

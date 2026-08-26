@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Thing in the Corridor</title>
+<link rel="stylesheet" href="../../css/app.css">
+<link rel="stylesheet" href="corridor.css">
+</head>
+<body class="app corridor">
+
+<header class="topbar">
+  <div class="brand">THE THING <span>IN THE CORRIDOR</span></div>
+  <div class="spacer"></div>
+  <div class="wk" id="beatChip">Not started</div>
+  <a class="btn" href="../../index.html">Leave game</a>
+</header>
+
+<main>
+
+  <!-- ================================================================ SETUP -->
+  <section class="view on" id="v-setup">
+    <div class="setup-wrap">
+      <h1 class="page" id="setupTitle">The Thing in the Corridor</h1>
+      <p class="lede" id="setupFlavour">
+        Four teams. Twenty doors. Something behind you that never stops walking.
+      </p>
+
+      <div class="panel">
+        <label class="f">
+          <span>Which unit are you playing?</span>
+          <select id="packPick"></select>
+        </label>
+        <div id="packSummary"></div>
+        <div class="row" style="margin-top:1.2em">
+          <button class="primary big" id="btnStart">Start the game</button>
+          <button class="ghost" id="btnRules">How it works</button>
+        </div>
+      </div>
+
+      <div class="panel" id="rulesPanel" hidden>
+        <p class="sec-title">The beat</p>
+        <ol class="rules">
+          <li>The door's clue appears. Read it aloud once, in a low voice.</li>
+          <li><b>Everybody writes.</b> Thirty seconds, silent. Every student, every team.</li>
+          <li>Draw a number. That seat number answers for <b>all four teams at once</b> —
+              each team's Number 6, say, holds up their board.</li>
+          <li>Mark each team right or wrong. Right moves you two doors.</li>
+          <li>The Thing moves one door. Always.</li>
+        </ol>
+        <p class="sec-title" style="margin-top:1.4em">The rule that does the work</p>
+        <p>
+          Any team you hear talking during the writing phase: press <b>Noise</b>.
+          They lose a door and The Thing moves an extra one — towards everyone. The class
+          polices itself after about two beats.
+        </p>
+        <p class="sec-title" style="margin-top:1.4em">Caught is not out</p>
+        <p>
+          A caught team becomes <b>The Chorus</b>. Each beat they may whisper one plausible
+          but wrong answer, in English, to any team they choose. Nobody sits idle.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================= PLAY -->
+  <section class="view" id="v-play">
+    <div id="board"></div>
+
+    <div class="stage panel" id="stage">
+      <div class="stage-head">
+        <span class="door-badge" id="doorBadge">DOOR 1</span>
+        <span class="door-kind" id="doorKind"></span>
+        <span class="spacer"></span>
+        <span class="thing-warn" id="thingWarn"></span>
+      </div>
+
+      <div class="stage-body" id="stageBody"></div>
+
+      <div class="stage-foot">
+        <div class="row" id="controls"></div>
+        <span class="spacer"></span>
+        <span class="hint">Noise strike</span>
+        <div class="row" id="noiseRow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================== END -->
+  <section class="view" id="v-end">
+    <div class="setup-wrap">
+      <h1 class="page" id="endTitle">It is over</h1>
+      <div class="panel" id="endBody"></div>
+      <div class="row" style="margin-top:1.2em">
+        <button class="primary big" id="btnAgain">Play again</button>
+        <a class="btn" href="../../index.html">Back to the Team Cup</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="../../js/store.js"></script>
+<script src="../../js/roles.js"></script>
+<script src="../../js/teams.js"></script>
+<script src="../../js/ui.js"></script>
+<script src="../../js/packs.js"></script>
+<script src="../../packs/unit02-history.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

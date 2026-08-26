@@ -1,8 +1,10 @@
 # Our World 5 — Team Games
 
-A classroom game system for one Grade 5 class of about 35 students, split into
-four teams that re-form every week, tracked individually across the whole year.
-Built to run on a desktop plugged into the classroom TV.
+A classroom game system for one Grade 5 class of about 35 students in four teams,
+tracked individually across the whole year. Built for a **1366×768 desktop** plugged
+into the classroom TV — every screen fits that resolution with no zooming and no
+horizontal scrolling. The one exception is the Student Log, which scrolls down
+through 35 rows by design; it is a marking screen, not something you show the class.
 
 **No build step, no dependencies, no server required.** It is plain HTML, CSS and
 JavaScript. Open `index.html` or publish the folder with GitHub Pages — both work.
@@ -42,13 +44,27 @@ from touching the folder.
 
 ---
 
-## First run, in order
+## How a lesson runs
 
-1. **Class** — paste your class list, one name per line. Save.
-2. **This Week's Teams** — Shuffle. Everyone gets a team and a seat number.
-3. **Draw** — this is the one you will use every lesson.
-4. **Student Log** — tick students as they earn it.
-5. **Save & Load** — download a backup. Do this at least once a term.
+The homeroom teacher sets the seating, not you. So teams here are **scoring
+containers**, not rosters — you never assign names to teams.
+
+1. Walk in. The class is already seated in four groups.
+2. Each team counts off 1, 2, 3… Set **Seats per team** on the Draw screen to match.
+3. Play. When the app calls a number, that seat answers in every team at once.
+4. Afterwards, tick students in the **Student Log** — search by name.
+
+### First-time setup
+
+1. **Class** — paste your class list, one name per line. Save. (Only needed for the
+   Student Log; games never use it.)
+2. **Save & Load** — download a backup. Do this at least once a term.
+
+### Optional: assigned teams
+
+If you ever *do* set the seating yourself, **This Week's Teams → Shuffle** assigns
+everyone to a team while avoiding repeat pairings — see below. It is off the normal
+path, but it is there.
 
 ### Keyboard shortcuts
 
@@ -60,13 +76,29 @@ from touching the folder.
 
 ---
 
+## Games
+
+### The Thing in the Corridor — `games/corridor/`
+
+Listening-first chase, about 20 minutes, four teams of any size. Twenty doors, four
+lanes, and The Thing advancing one door every beat. Right answers move a team two
+doors; noise moves The Thing an extra one, towards everyone. Caught teams become
+The Chorus and keep playing by whispering wrong answers.
+
+Each beat: read the clue once → everybody writes (timed) → draw a number → reveal
+the answer → mark each team → next. <kbd>Space</kbd> advances, <kbd>1</kbd>–<kbd>4</kbd>
+toggle a team right or wrong.
+
+The seven special doors (5/11/17 locked, 8/14 dark, 12 mirror, 16 sanctuary) fire
+when the beat reaches them, so the whole class experiences the corridor together.
+
 ## Why the shuffle is not random
 
-A random shuffle of 35 students into 4 teams will keep pairing the same people
-by chance. This one counts every pairing that has already happened and searches
-for the arrangement with the fewest repeats. After six weeks of shuffling a
-35-student class it typically has ~88% of all possible pairs having worked
-together at least once, with no pair repeated more than about four times.
+Only relevant if you assign teams yourself. A random shuffle of 35 students into 4
+teams keeps pairing the same people by chance. This one counts every pairing that has
+already happened and searches for the arrangement with the fewest repeats. After six
+weeks it typically reaches ~88% of all possible pairs having worked together at least
+once, with no pair repeated more than about four times.
 
 You can see the number on the Class tab.
 
@@ -109,7 +141,9 @@ js/packs.js         content pack registry
 js/app.js           the shell's screens
 packs/              one file per unit
 games/              one folder per game (see games/README.md)
-docs/smoke.js       headless browser test, not used in class
+games/corridor/     The Thing in the Corridor
+docs/smoke.js       headless test of the shell
+docs/smoke-corridor.js  plays a whole game, checks nothing overflows 1366×768
 ```
 
 ## Running the test
@@ -118,11 +152,13 @@ docs/smoke.js       headless browser test, not used in class
 npm i -g playwright && npx playwright install chromium
 python3 -m http.server 8123
 node docs/smoke.js http://localhost:8123
+node docs/smoke-corridor.js http://localhost:8123
 ```
 
-It fills in a class, shuffles six weeks of teams, draws, ticks a student to a
-Role Card unlock, checks the state survives a reload, and screenshots each
-screen at 1920×1080.
+The first fills in a class, shuffles six weeks of teams, draws, ticks a student to a
+Role Card unlock, checks the state survives a reload, and asserts every screen fits
+1366×768. The second plays a complete game of the corridor start to finish and fails
+if any beat overflows the screen.
 
 ## Licence
 

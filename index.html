@@ -80,10 +80,17 @@
       <div class="draw-num" id="drawNum">—</div>
       <div class="draw-names" id="drawNames"></div>
     </div>
-    <div class="row" style="justify-content:center;margin-top:1.5em">
+    <div class="row" style="justify-content:center;margin-top:1em">
       <button class="primary big" id="btnDraw">Draw a number</button>
       <span class="hint">or press <kbd>Space</kbd></span>
+      <label class="f" style="margin:0;width:150px;text-align:left">
+        <span>Seats per team</span>
+        <input type="number" id="seatCountBox" min="2" max="20" step="1">
+      </label>
     </div>
+    <p class="hint" style="text-align:center;margin-top:.6em">
+      Count the class off 1 to N at the start of the lesson. One draw answers for all four teams.
+    </p>
   </section>
 
   <!-- ================================================================= LOG -->

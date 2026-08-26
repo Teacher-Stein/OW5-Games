@@ -11,7 +11,7 @@ const NAMES = ['Nguyen An','Tran Binh','Le Chi','Pham Dung','Hoang Em','Vu Phuon
 (async () => {
   const base = process.argv[2] || 'http://localhost:8123';
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+  const page = await browser.newPage({ viewport: { width: 1366, height: 768 } });
 
   const errors = [];
   page.on('pageerror', e => errors.push('pageerror: ' + e.message));
@@ -78,6 +78,20 @@ const NAMES = ['Nguyen An','Tran Binh','Le Chi','Pham Dung','Hoang Em','Vu Phuon
 
   await page.click('a[href="#/data"]');
   await page.screenshot({ path: 'docs/shot-data.png' });
+
+  // every screen must fit 1366x768 without horizontal scroll
+  for (const v of ['home', 'teams', 'draw', 'log', 'class', 'data']) {
+    await page.click(`a[href="#/${v}"]`);
+    await page.waitForTimeout(150);
+    const o = await page.evaluate(() => ({
+      sw: document.documentElement.scrollWidth,
+      cw: document.documentElement.clientWidth,
+      sh: document.documentElement.scrollHeight,
+      ch: document.documentElement.clientHeight
+    }));
+    if (o.sw > o.cw + 2) errors.push(`H-OVERFLOW on #/${v}: ${o.sw} > ${o.cw}`);
+    console.log(`#/${v}: ${o.sw}x${o.sh} (viewport ${o.cw}x${o.ch})${o.sh > o.ch ? ' — scrolls vertically' : ''}`);
+  }
 
   console.log(errors.length ? 'ERRORS:\n' + errors.join('\n') : 'no page errors');
   await browser.close();

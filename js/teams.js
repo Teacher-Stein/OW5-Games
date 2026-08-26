@@ -123,10 +123,22 @@
     }, 0);
   }
 
+  /* How many seats to draw from.
+
+     Stein does not set the seating — the homeroom teacher rearranges the class
+     each week — so normally no roster is assigned to teams and this is simply
+     the number the class counts off to at the start of the lesson. If teams
+     HAVE been assigned in the app, the biggest team wins instead. */
+  function seatRange() {
+    var n = parseInt(store.state.seatCount, 10);
+    if (n >= 2) return n;
+    return largestTeam() || 9;
+  }
+
   /* Draw one seat number. Every team's holder of that number answers,
      so a single draw serves all four teams at once. */
   function drawSeat() {
-    var max = largestTeam();
+    var max = seatRange();
     if (!max) return null;
     var n = 1 + Math.floor(Math.random() * max);
     return { seat: n, students: studentsAtSeat(n) };
@@ -146,6 +158,7 @@
 
   OW5.teams = {
     makeTeams: makeTeams,
+    seatRange: seatRange,
     applyTeams: applyTeams,
     mixReport: mixReport,
     drawSeat: drawSeat,

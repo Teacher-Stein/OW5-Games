@@ -17,14 +17,16 @@
   --mute:   #8FA4C4;
   --white:  #ffffff;
 
-  --t1: clamp(28px, 4.4vw, 76px);
-  --t2: clamp(20px, 2.4vw, 40px);
-  --t3: clamp(16px, 1.5vw, 26px);
-  --tb: clamp(14px, 1.15vw, 21px);
-  --ts: clamp(12px, 0.9vw, 16px);
+  /* Primary target is a 1366×768 classroom desktop, so every scale is capped
+     against viewport HEIGHT as well as width. Nothing may need zooming. */
+  --t1: clamp(26px, min(3.4vw, 6vh), 60px);
+  --t2: clamp(18px, min(2vw, 3.4vh), 32px);
+  --t3: clamp(15px, min(1.35vw, 2.4vh), 22px);
+  --tb: clamp(13px, min(1.05vw, 1.9vh), 18px);
+  --ts: clamp(11px, min(0.85vw, 1.5vh), 15px);
 
-  --r: 14px;
-  --pad: clamp(14px, 1.6vw, 30px);
+  --r: 12px;
+  --pad: clamp(10px, min(1.3vw, 2.2vh), 24px);
 }
 
 * { box-sizing: border-box; }
@@ -45,8 +47,8 @@ body.app { display: flex; flex-direction: column; min-height: 100vh; }
 header.topbar {
   display: flex;
   align-items: center;
-  gap: var(--pad);
-  padding: calc(var(--pad) * .6) var(--pad);
+  gap: calc(var(--pad) * .7);
+  padding: calc(var(--pad) * .45) var(--pad);
   background: var(--navy);
   border-bottom: 3px solid var(--line);
   flex-wrap: wrap;
@@ -78,9 +80,11 @@ nav.tabs a {
 nav.tabs a:hover { color: var(--white); background: var(--navy-2); }
 nav.tabs a.on { color: var(--ink); background: var(--cream); }
 
-main { flex: 1; padding: var(--pad); }
+main { flex: 1; padding: var(--pad); display: flex; flex-direction: column; min-height: 0; }
 .view { display: none; }
 .view.on { display: block; animation: fade .18s ease-out; }
+/* the draw is the one screen that should own the whole screen */
+#v-draw.on { display: flex; flex-direction: column; justify-content: center; flex: 1; }
 @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
 
 h1.page { font-size: var(--t2); margin: 0 0 .2em; }
@@ -178,11 +182,11 @@ label.f > span { display: block; font-size: var(--ts); color: var(--mute); font-
 
 /* ------------------------------------------------------------- the draw */
 .draw-stage {
-  min-height: 52vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: .4em; text-align: center;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: .2em; text-align: center;
 }
 .draw-num {
-  font-size: clamp(90px, 26vw, 400px); font-weight: 900; line-height: .9;
+  font-size: clamp(72px, min(22vw, 42vh), 300px); font-weight: 900; line-height: .85;
   color: var(--orange); text-shadow: 0 0 60px rgba(241,138,43,.35);
 }
 .draw-num.rolling { color: var(--mute); text-shadow: none; }

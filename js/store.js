@@ -24,6 +24,7 @@
       students: [],      // {id, name, tracks:{}, mvp:0}
       teams: [[], [], [], []],
       scores: [0, 0, 0, 0],
+      seatCount: 9,   // seats to draw from; the room is seated by the homeroom teacher
       seats: {},         // studentId -> seat number within their team
       pairings: {},      // "idA|idB" -> times they have been teammates
       cup: [],           // {week, unit, game, scores:[n,n,n,n]}
