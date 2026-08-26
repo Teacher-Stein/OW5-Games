@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our World 5 — Team Games</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body class="app">
+
+<header class="topbar">
+  <div class="brand">OUR WORLD 5 <span>· TEAM GAMES</span></div>
+  <nav class="tabs" id="tabs">
+    <a href="#/home">Home</a>
+    <a href="#/teams">This Week's Teams</a>
+    <a href="#/draw">Draw</a>
+    <a href="#/log">Student Log</a>
+    <a href="#/class">Class</a>
+    <a href="#/data">Save &amp; Load</a>
+  </nav>
+  <div class="spacer"></div>
+  <div class="wk" id="weekChip">Week 1</div>
+</header>
+
+<main>
+
+  <!-- ================================================================ HOME -->
+  <section class="view" id="v-home">
+    <div class="grid g2">
+      <div class="panel">
+        <p class="sec-title">Team Cup — this week</p>
+        <div class="score-strip" id="scoreStrip"></div>
+        <div class="row" style="margin-top:1em">
+          <button id="btnResetScores" class="ghost">Reset scores</button>
+          <button id="btnEndWeek">End the week &amp; save result</button>
+        </div>
+        <p class="hint" style="margin-top:.8em">
+          Scores reset every week. Only the Student Log carries across the year.
+        </p>
+      </div>
+
+      <div class="panel">
+        <p class="sec-title">Right now</p>
+        <div id="statusBox"></div>
+        <div class="row" style="margin-top:1em">
+          <button class="primary big" id="btnQuickDraw">Draw a student</button>
+        </div>
+        <p class="hint" style="margin-top:1em">
+          Shortcuts anywhere: <kbd>D</kbd> draw &nbsp; <kbd>1</kbd>–<kbd>4</kbd> add a point to a team
+        </p>
+      </div>
+    </div>
+
+    <hr class="sep">
+
+    <p class="sec-title">Games</p>
+    <div class="grid g4" id="gameTiles"></div>
+  </section>
+
+  <!-- =============================================================== TEAMS -->
+  <section class="view" id="v-teams">
+    <h1 class="page">This week's teams</h1>
+    <p class="lede">
+      The shuffle is not random. It counts who has already sat with whom and picks the
+      arrangement with the fewest repeat teammates, so across the year everyone works
+      with everyone.
+    </p>
+    <div class="row" style="margin-bottom:1.2em">
+      <button class="primary big" id="btnShuffle">Shuffle new teams</button>
+      <button id="btnKeepTeams" class="ghost">Keep current teams</button>
+      <span class="hint" id="mixReport"></span>
+    </div>
+    <div class="grid g4" id="teamCards"></div>
+  </section>
+
+  <!-- ================================================================ DRAW -->
+  <section class="view" id="v-draw">
+    <div class="draw-stage">
+      <p class="sec-title" id="drawCaption">Everybody writes. One is drawn.</p>
+      <div class="draw-num" id="drawNum">—</div>
+      <div class="draw-names" id="drawNames"></div>
+    </div>
+    <div class="row" style="justify-content:center;margin-top:1.5em">
+      <button class="primary big" id="btnDraw">Draw a number</button>
+      <span class="hint">or press <kbd>Space</kbd></span>
+    </div>
+  </section>
+
+  <!-- ================================================================= LOG -->
+  <section class="view" id="v-log">
+    <h1 class="page">The Student Log</h1>
+    <p class="lede">
+      Permanent, all year. Every 5 ticks in a track unlocks that track's next Role Card —
+      and the card belongs to the student, so it travels with them into next week's team.
+    </p>
+    <div class="row" style="margin-bottom:1em">
+      <label class="f" style="margin:0;flex:1;min-width:220px">
+        <span>Find a student</span>
+        <input type="text" id="logFilter" placeholder="Type a name…">
+      </label>
+      <label class="f" style="margin:0;min-width:200px">
+        <span>Sort by</span>
+        <select id="logSort">
+          <option value="team">Team, then seat</option>
+          <option value="name">Name</option>
+          <option value="total">Total ticks</option>
+        </select>
+      </label>
+    </div>
+    <div class="panel" style="overflow-x:auto">
+      <table class="log" id="logTable"></table>
+    </div>
+  </section>
+
+  <!-- =============================================================== CLASS -->
+  <section class="view" id="v-class">
+    <h1 class="page">Class list</h1>
+    <p class="lede">
+      One name per line. Editing this keeps every existing student's ticks — matching is by
+      name, so fix spellings here rather than deleting and retyping a name.
+    </p>
+    <div class="grid g2">
+      <div class="panel">
+        <label class="f">
+          <span>Students</span>
+          <textarea id="rosterBox" spellcheck="false" placeholder="Nguyen An&#10;Tran Binh&#10;…"></textarea>
+        </label>
+        <div class="row">
+          <button class="primary" id="btnSaveRoster">Save class list</button>
+          <span class="hint" id="rosterCount"></span>
+        </div>
+      </div>
+      <div class="panel">
+        <p class="sec-title">Class name</p>
+        <label class="f">
+          <span>Shown on screen</span>
+          <input type="text" id="classNameBox">
+        </label>
+        <p class="sec-title" style="margin-top:1.5em">Mixing so far</p>
+        <div id="mixDetail"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ DATA -->
+  <section class="view" id="v-data">
+    <h1 class="page">Save &amp; load</h1>
+    <p class="lede">
+      Everything lives in this browser on this computer. Export a backup at the end of each
+      term — or any week you are feeling careful — so a wiped profile never costs you the year.
+    </p>
+    <div class="grid g2">
+      <div class="panel">
+        <p class="sec-title">Backup</p>
+        <p class="hint" id="savedAt"></p>
+        <div class="row" style="margin-top:1em">
+          <button class="primary" id="btnExport">Download backup</button>
+        </div>
+      </div>
+      <div class="panel">
+        <p class="sec-title">Restore</p>
+        <p class="hint">This replaces everything currently saved.</p>
+        <div class="row" style="margin-top:1em">
+          <input type="file" id="importFile" accept="application/json,.json" style="max-width:100%">
+        </div>
+        <hr class="sep">
+        <p class="sec-title">Start again</p>
+        <button class="bad" id="btnReset">Erase everything</button>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:var(--pad)">
+      <p class="sec-title">Weeks played</p>
+      <table class="log" id="cupTable"></table>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/store.js"></script>
+<script src="js/roles.js"></script>
+<script src="js/teams.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/packs.js"></script>
+<script src="packs/unit02-history.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
